@@ -162,7 +162,10 @@ public class ReviewServer {
 	 * "hh:mm-hh:mm=###", including the time interval and the number of preferences 
 	 * e.g. "14:00-15:30=2".
 	 * 
-	 * @param reviewId	the id of the review
+	 * All possible dates are reported and for each date only 
+	 * the slots with at least one preference are listed.
+	 * 
+* @param reviewId	the id of the review
 	 * @return the map data -> slot preferences
 	 */
 	public Map<String, List<String>> reviewPreferences(String reviewId) {
