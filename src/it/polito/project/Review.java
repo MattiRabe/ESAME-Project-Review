@@ -3,6 +3,7 @@ package it.polito.project;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class Review {
@@ -14,6 +15,8 @@ public class Review {
     private String topic;
     private String group;
     private HashMap<String, List<Slot>> calendar = new HashMap<>();
+    private Boolean status; 
+    private TreeMap<String, Preference> preferences = new TreeMap<>();
     
     
     public Review(String title, String topic, String group) {
@@ -21,6 +24,7 @@ public class Review {
         this.topic = topic;
         this.group = group;
         this.id = Integer.toString(BASE + INCREMENTER++);
+        this.status=false;
 
     }
 
@@ -55,8 +59,26 @@ public class Review {
         calendar.get(date).add(s);
         return true;
     }
-    
+
+    public Boolean isOpened() {
+        return status;
+    }
+
+    public void openPoll(){
+        this.status=true;
+    }
+
+
+    public TreeMap<String, Preference> getPreferences() {
+        return preferences;
+    }
+
+    public void addPreference(Preference p){
+        preferences.put(p.getEmail(), p);
+    }
 
     
+
+
 
 }

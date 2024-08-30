@@ -123,7 +123,7 @@ public class ReviewServer {
 	 * @param reviewId	is of the review
 	 */
 	public void openPoll(String reviewId) {
-		return;
+		reviews.get(reviewId).openPoll();
 	}
 
 
@@ -141,7 +141,17 @@ public class ReviewServer {
 	 * @throws ReviewException	in case of invalid id or slot
 	 */
 	public int selectPreference(String email, String name, String surname, String reviewId, String date, String slot) throws ReviewException {
-		return -1;
+		if(!reviews.containsKey(reviewId) || reviews.get(reviewId).isOpened()==false) throw new ReviewException();
+		else if(!reviews.get(reviewId).getCalendar().containsKey(date))throw new ReviewException();
+		Boolean found=false;
+		for(Slot s : reviews.get(reviewId).getCalendar().get(date)){
+			if(slot.equals(s.toString())) found=true;
+		}
+		if(found==false) throw new ReviewException();
+
+		reviews.get(reviewId).addPreference(new Preference(email, name, surname, reviewId, date, slot));
+		return (int)reviews.get(reviewId).getPreferences().values().stream().filter(p->p.getSlot().equals(slot))
+		.count();
 	}
 
 	/**
@@ -154,7 +164,8 @@ public class ReviewServer {
 	 * @return list of preferences for the review
 	 */
 	public Collection<String> listPreferences(String reviewId) {
-		return null;
+		return reviews.get(reviewId).getPreferences().values().stream()
+		.collect(Collectors.mapping(Preference::toString, Collectors.toList()));
 	}
 
 	/**
