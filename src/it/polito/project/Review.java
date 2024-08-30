@@ -50,9 +50,7 @@ public class Review {
             return true;
         }
         for(Slot ss : calendar.get(date)){
-            if(s.getEndInt()<=ss.getEndInt() && s.getStartInt()>=ss.getStartInt()) return false;
-            if(s.getEndInt()<=ss.getEndInt() && s.getEndInt()>=ss.getStartInt()) return false;
-            if(s.getStartInt()<=ss.getEndInt() && s.getStartInt()>=ss.getStartInt()) return false;
+            if(s.getStartInt()<ss.getEndInt() && ss.getStartInt()<s.getEndInt()) return false;
         }
         calendar.get(date).add(s);
         return true;
