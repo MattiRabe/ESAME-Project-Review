@@ -66,6 +66,12 @@ public class Slot {
         numPreferences++;
     }
 
+    public Integer getNumPreferences() {
+        return numPreferences;
+    }
+
+    
+
     
     
 

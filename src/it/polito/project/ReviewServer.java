@@ -1,6 +1,7 @@
 package it.polito.project;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -147,13 +148,10 @@ public class ReviewServer {
 		for(Slot s : reviews.get(reviewId).getCalendar().get(date)){
 			if(slot.equals(s.toString())){
 				found=true;
-				Slot slotFound=s;
+				reviews.get(reviewId).addPreference(new Preference(email, name, surname, reviewId, date, slot, s));
 			}
 		}
 		if(found==false) throw new ReviewException();
-
-		reviews.get(reviewId).addPreference(new Preference(email, name, surname, reviewId, date, slot, slotFound));
-
 
 		for(Slot s : reviews.get(reviewId).getCalendar().get(date)) if(s.toString().equals(slot)) s.addPreference();
 		return (int)reviews.get(reviewId).getPreferences().values().stream().filter(p->p.getSlot().equals(slot))
@@ -185,11 +183,11 @@ public class ReviewServer {
 	 */
 	public Collection<String> closePoll(String reviewId) {
 		reviews.get(reviewId).closePoll();
-
-		//passo da preference, slot e ordino per preferenze e uso map con to string per creare la stringa
-		//trovare il modo di passare slot a preference
-		
-		return null;
+	
+		return reviews.get(reviewId).getPreferences().values().stream().map(Preference::getSlot)
+		.sorted(Comparator.comparing(Slot::getNumPreferences).reversed())
+		.map(s->String.format("%sT%s-%s=%d", s.getDateString(), s.getStartString(), s.getEndString(), s.getNumPreferences()))
+		.collect(Collectors.toList());
 	}
 
 	
