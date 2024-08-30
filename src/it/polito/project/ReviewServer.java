@@ -3,9 +3,14 @@ package it.polito.project;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 
 public class ReviewServer {
+
+	private TreeMap<String, Group> groups = new TreeMap<>();
+	private TreeMap<String, Review> reviews = new TreeMap<>();
 
 	/**
 	 * adds a set of student groups to the list of groups
@@ -15,6 +20,7 @@ public class ReviewServer {
 	 * @param groups the project groups
 	 */
 	public void addGroups(String... groups) {
+		for(String g : groups) this.groups.put(g, new Group(g));
 
 	}
 
@@ -24,7 +30,7 @@ public class ReviewServer {
 	 * @return list of groups
 	 */
 	public Collection<String> getGroups() {
-		return null;
+		return groups.keySet();
 	}
 	
 	
@@ -38,7 +44,11 @@ public class ReviewServer {
 	 * @throws ReviewException in case of non-existing group
 	 */
 	public String addReview(String title, String topic, String group) throws ReviewException {
-		return null;
+		if(!groups.containsKey(group)) throw new ReviewException();
+
+		Review r = new Review(title, topic, group);
+		reviews.put(r.getId(), r);
+		return r.getId();
 	}
 
 	/**
@@ -48,7 +58,8 @@ public class ReviewServer {
 	 * @return list of review ids
 	 */
 	public Collection<String> getReviews(String group) {
-		return null;
+		return reviews.values().stream().filter(r->r.getGroup().equals(group)).map(Review::getId)
+		.collect(Collectors.toList());
 	}
 
 	/**
@@ -58,7 +69,7 @@ public class ReviewServer {
 	 * @return the title
 	 */
 	public String getReviewTitle(String reviewId) {
-		return null;
+		return reviews.get(reviewId).getTitle();
 	}
 
 	/**
@@ -68,7 +79,7 @@ public class ReviewServer {
 	 * @return the topic of the review
 	 */
 	public String getReviewTopic(String reviewId) {
-		return null;
+		return reviews.get(reviewId).getTopic();
 	}
 
 	// R2
