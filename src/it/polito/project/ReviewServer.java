@@ -145,11 +145,17 @@ public class ReviewServer {
 		else if(!reviews.get(reviewId).getCalendar().containsKey(date))throw new ReviewException();
 		Boolean found=false;
 		for(Slot s : reviews.get(reviewId).getCalendar().get(date)){
-			if(slot.equals(s.toString())) found=true;
+			if(slot.equals(s.toString())){
+				found=true;
+				Slot slotFound=s;
+			}
 		}
 		if(found==false) throw new ReviewException();
 
-		reviews.get(reviewId).addPreference(new Preference(email, name, surname, reviewId, date, slot));
+		reviews.get(reviewId).addPreference(new Preference(email, name, surname, reviewId, date, slot, slotFound));
+
+
+		for(Slot s : reviews.get(reviewId).getCalendar().get(date)) if(s.toString().equals(slot)) s.addPreference();
 		return (int)reviews.get(reviewId).getPreferences().values().stream().filter(p->p.getSlot().equals(slot))
 		.count();
 	}
@@ -178,6 +184,11 @@ public class ReviewServer {
 	 * @param reviewId	id of the review
 	 */
 	public Collection<String> closePoll(String reviewId) {
+		reviews.get(reviewId).closePoll();
+
+		//passo da preference, slot e ordino per preferenze e uso map con to string per creare la stringa
+		//trovare il modo di passare slot a preference
+		
 		return null;
 	}
 

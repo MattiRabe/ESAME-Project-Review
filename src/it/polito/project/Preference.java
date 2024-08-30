@@ -7,16 +7,18 @@ public class Preference {
     private String surname;
     private String reviewId;
     private String date;
-    private String slot;
+    private String slotStr;
+    private Slot slot;
 
 
-    public Preference(String email, String name, String surname, String reviewId, String date, String slot) {
+    public Preference(String email, String name, String surname, String reviewId, String date, String slot, Slot s) {
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.reviewId = reviewId;
         this.date = date;
-        this.slot = slot;
+        this.slotStr = slot;
+        this.slot=s;
     }
 
 
@@ -45,9 +47,11 @@ public class Preference {
     }
 
 
-    public String getSlot() {
-        return slot;
+    public String getSlotStr() {
+        return slotStr;
     }
+
+    
 
 
     @Override
@@ -55,9 +59,12 @@ public class Preference {
         return date + "T" + slot + "=" + email;
     }
 
-    //YYYY-MM-DDThh:mm-hh:mm=EMAIL
-    
 
+    public Slot getSlot() {
+        return slot;
+    }
+
+    //YYYY-MM-DDThh:mm-hh:mm=EMAIL
     
 
 }

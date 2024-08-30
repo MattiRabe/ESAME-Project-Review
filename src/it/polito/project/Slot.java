@@ -8,6 +8,7 @@ public class Slot {
     private String endString;
     private Integer startInt;
     private Integer endInt;
+    private Integer numPreferences;
 
     
     public Slot(String date, String startString, String endString) {
@@ -22,6 +23,8 @@ public class Slot {
         this.startInt= Integer.parseInt(sStart[0]+sStart[1]);
         String[] sEnd = endString.split(":");
         this.endInt= Integer.parseInt(sEnd[0]+sEnd[1]);
+
+        this.numPreferences=0;
     }
 
     public String getStartString() {
@@ -57,6 +60,10 @@ public class Slot {
     @Override
     public String toString() {
         return this.startString + "-" + this.endString;
+    }
+
+    public void addPreference(){
+        numPreferences++;
     }
 
     

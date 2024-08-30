@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 
 public class Review {
@@ -66,6 +67,10 @@ public class Review {
 
     public void openPoll(){
         this.status=true;
+    }
+
+    public void closePoll(){
+        this.status=false;
     }
 
 
