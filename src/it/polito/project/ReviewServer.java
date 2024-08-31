@@ -201,7 +201,9 @@ public class ReviewServer {
 	 * @return the map data -> slot preferences
 	 */
 	public Map<String, List<String>> reviewPreferences(String reviewId) {
-		return null;
+		return reviews.get(reviewId).getPreferences().values().stream().map(Preference::getSlot)
+		.collect(Collectors.groupingBy(Slot::getDateString, TreeMap::new, Collectors
+		.mapping(s->String.format("%s-%s=%d", s.getStartString(), s.getEndString(), s.getNumPreferences()), Collectors.toList())));
 	}
 
 
@@ -212,6 +214,6 @@ public class ReviewServer {
 	 * @return the map id : preferences -> count
 	 */
 	public Map<String, Integer> preferenceCount() {
-		return null;
+		return reviews.values().stream().collect(Collectors.toMap(Review::getId, r->r.getPreferences().size()));
 	}
 }
