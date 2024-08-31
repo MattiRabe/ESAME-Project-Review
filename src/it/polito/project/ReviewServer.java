@@ -144,18 +144,14 @@ public class ReviewServer {
 	public int selectPreference(String email, String name, String surname, String reviewId, String date, String slot) throws ReviewException {
 		if(!reviews.containsKey(reviewId) || reviews.get(reviewId).isOpened()==false) throw new ReviewException();
 		else if(!reviews.get(reviewId).getCalendar().containsKey(date))throw new ReviewException();
-		Boolean found=false;
 		for(Slot s : reviews.get(reviewId).getCalendar().get(date)){
 			if(slot.equals(s.toString())){
-				found=true;
 				reviews.get(reviewId).addPreference(new Preference(email, name, surname, reviewId, date, slot, s));
+				s.addPreference();
+				return s.getNumPreferences();
 			}
 		}
-		if(found==false) throw new ReviewException();
-
-		for(Slot s : reviews.get(reviewId).getCalendar().get(date)) if(s.toString().equals(slot)) s.addPreference();
-		return (int)reviews.get(reviewId).getPreferences().values().stream().filter(p->p.getSlot().equals(slot))
-		.count();
+		throw new ReviewException();
 	}
 
 	/**
