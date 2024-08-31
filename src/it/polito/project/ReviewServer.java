@@ -181,7 +181,7 @@ public class ReviewServer {
 		reviews.get(reviewId).closePoll();
 	
 		return reviews.get(reviewId).getPreferences().values().stream().map(Preference::getSlot)
-		.sorted(Comparator.comparing(Slot::getNumPreferences).reversed())
+		.sorted(Comparator.comparing(Slot::getNumPreferences).reversed()).limit(1)
 		.map(s->String.format("%sT%s-%s=%d", s.getDateString(), s.getStartString(), s.getEndString(), s.getNumPreferences()))
 		.collect(Collectors.toList());
 	}
